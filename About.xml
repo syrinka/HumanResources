@@ -12,9 +12,15 @@
       <displayName>HugsLib</displayName>
       <steamWorkshopUrl>steam://url/CommunityFilePage/818773962</steamWorkshopUrl>
     </li>
+    <li>
+      <packageId>ccl.patchoperation.highlander</packageId>
+      <displayName>PatchOperationHighlander</displayName>
+      <steamWorkshopUrl>steam://url/CommunityFilePage/2552002158</steamWorkshopUrl>
+    </li>
   </modDependencies>
   <loadAfter>
     <li>UnlimitedHugs.HugsLib</li>
+    <li>ccl.patchoperation.highlander</li>
     <li>jelly.survivaltoolsreborn</li>
     <li>roolo.whatthehack</li>
     <li>bennington.medievalpatches</li>
