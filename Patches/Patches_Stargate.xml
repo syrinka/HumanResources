@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Patch>
   <!--[O21] Stargate-->
-  <Operation Class="JPTools.PatchOperationFindModById">
+  <Operation Class="PatchOperation.FindModByID">
     <mods>
       <li>neronix17.stargate.core</li>
     </mods>

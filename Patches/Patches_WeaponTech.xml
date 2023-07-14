@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Patch>
   <!--Weapon Tech 1.1-->
-	<Operation Class="JPTools.PatchOperationFindModById">
+	<Operation Class="PatchOperation.FindModByID">
 		<mods>
 			<li>janson.weapontech11</li>
 		</mods>

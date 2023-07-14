@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Patch>
   <!--Pawnmorpher-->
-  <Operation Class="JPTools.PatchOperationFindModById">
+  <Operation Class="PatchOperation.FindModByID">
 		<mods>
 			<li>tachyonite.pawnmorpherpublic</li>
 		</mods>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Patch>
   <!--Adeptus Mechanicus: Armoury-->
-  <Operation Class="JPTools.PatchOperationFindModById">
+  <Operation Class="PatchOperation.FindModByID">
     <mods>
       <li>ogliss.admech.armoury</li>
     </mods>

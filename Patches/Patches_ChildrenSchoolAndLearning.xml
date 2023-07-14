@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Patch>
   <!--Children, school and learning-->
-  <Operation Class="JPTools.PatchOperationFindModById">
+  <Operation Class="PatchOperation.FindModByID">
     <mods>
       <li>dylan.csl</li>
 		</mods>

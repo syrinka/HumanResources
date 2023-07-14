@@ -2,7 +2,7 @@
 <Patch>
   
   <!--Polarisbloc - Mechenemy-->
-  <Operation Class="JPTools.PatchOperationFindModById">
+  <Operation Class="PatchOperation.FindModByID">
     <mods>
       <li>vanya.polarisbloc.mechenemy</li>
     </mods>
@@ -28,7 +28,7 @@
   </Operation>
   
   <!--Polarisbloc - Security Force-->
-  <Operation Class="JPTools.PatchOperationFindModById">
+  <Operation Class="PatchOperation.FindModByID">
     <mods>
       <li>vanya.polarisbloc.securityforce</li>
     </mods>

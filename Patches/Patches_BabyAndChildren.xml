@@ -2,7 +2,7 @@
 <Patch>
 
   <!--Baby and Children-->
-  <Operation Class="JPTools.PatchOperationFindModById">
+  <Operation Class="PatchOperation.FindModByID">
 		<mods>
 			<li>thiritevhcompilationhnyaamz899.babyhandhchildren</li>
 		</mods>
@@ -15,7 +15,7 @@
 	</Operation>
 
   <!--Babies and Children-->
-  <Operation Class="JPTools.PatchOperationFindModById">
+  <Operation Class="PatchOperation.FindModByID">
 		<mods>
 			<li>babies.and.children</li>
 		</mods>

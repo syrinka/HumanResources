@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Patch>
   <!--[CP] Rimmu-Nation - Weapons-->
-  <Operation Class="JPTools.PatchOperationFindModById">
+  <Operation Class="PatchOperation.FindModByID">
     <mods>
       <li>cp.rimmunation.weapons</li>
     </mods>
