@@ -188,6 +188,11 @@ namespace HumanResources
             return storageSettings;
         }
 
+        public void Notify_SettingsChanged()
+        {
+            return;
+        }
+
         public override void PostMake()
         {
             base.PostMake();

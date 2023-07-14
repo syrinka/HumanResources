@@ -241,7 +241,7 @@ namespace HumanResources
         {
             TechPoolTitle = Settings.GetHandle("TechPoolTitle", "TechPoolModeTitle".Translate(), "TechPoolModeDesc".Translate(), false);
             TechPoolTitle.CustomDrawer = rect => false;
-            TechPoolTitle.CanBeReset = false;
+            // TechPoolTitle.CanBeReset = false;
             TechPoolIncludesStarting = Settings.GetHandle<bool>("TechPoolIncludesStarting", "TechPoolIncludesStartingTitle".Translate(), "TechPoolIncludesStartingDesc".Translate(), true);
             TechPoolIncludesStarting.OnValueChanged = x => { ValidateTechPoolSettings(x); };
             TechPoolIncludesTechLevel = Settings.GetHandle<bool>("TechPoolIncludesTechLevel", "TechPoolIncludesTechLevelTitle".Translate(), "TechPoolIncludesTechLevelDesc".Translate(), true);

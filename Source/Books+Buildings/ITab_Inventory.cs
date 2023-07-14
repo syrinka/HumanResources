@@ -68,7 +68,7 @@ namespace HumanResources
             labelKey = "TabCatalogue";
         }
 
-        public override void FillTab()
+        protected override void FillTab()
         {
             Text.Font = GameFont.Small;
             Rect rect = new Rect(0f, 20f, size.x, size.y - 20f);
