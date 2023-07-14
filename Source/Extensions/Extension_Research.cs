@@ -139,7 +139,7 @@ namespace HumanResources
             };
             techStuff.ResolveReferences();
             MethodInfo GiveShortHashInfo = AccessTools.Method(typeof(ShortHashGiver), "GiveShortHash");
-            GiveShortHashInfo.Invoke(tech, new object[] { techStuff, typeof(ThingDef) });
+            GiveShortHashInfo.Invoke(tech, new object[] { techStuff, typeof(ThingDef), new HashSet<ushort>()});
             DefDatabase<ThingDef>.Add(techStuff);
             filter.SetAllow(techStuff, true);
             FindTech(tech).Stuff = techStuff;
