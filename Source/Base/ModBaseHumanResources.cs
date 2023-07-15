@@ -242,13 +242,13 @@ namespace HumanResources
             TechPoolTitle = Settings.GetHandle("TechPoolTitle", "TechPoolModeTitle".Translate(), "TechPoolModeDesc".Translate(), false);
             TechPoolTitle.CustomDrawer = rect => false;
             // TechPoolTitle.CanBeReset = false;
-            TechPoolIncludesStarting = Settings.GetHandle<bool>("TechPoolIncludesStarting", "TechPoolIncludesStartingTitle".Translate(), "TechPoolIncludesStartingDesc".Translate(), true);
+            TechPoolIncludesStarting = Settings.GetHandle<bool>("TechPoolIncludesStarting", "    " + "TechPoolIncludesStartingTitle".Translate(), "TechPoolIncludesStartingDesc".Translate(), true);
             // TechPoolIncludesStarting.OnValueChanged = x => { ValidateTechPoolSettings(x); };
-            TechPoolIncludesTechLevel = Settings.GetHandle<bool>("TechPoolIncludesTechLevel", "TechPoolIncludesTechLevelTitle".Translate(), "TechPoolIncludesTechLevelDesc".Translate(), true);
+            TechPoolIncludesTechLevel = Settings.GetHandle<bool>("TechPoolIncludesTechLevel", "    " + "TechPoolIncludesTechLevelTitle".Translate(), "TechPoolIncludesTechLevelDesc".Translate(), true);
             // TechPoolIncludesTechLevel.OnValueChanged = x => { ValidateTechPoolSettings(x); };
-            TechPoolIncludesBackground = Settings.GetHandle<bool>("TechPoolIncludesBackground", "TechPoolIncludesBackgroundTitle".Translate(), "TechPoolIncludesBackgroundDesc".Translate(), false);
+            TechPoolIncludesBackground = Settings.GetHandle<bool>("TechPoolIncludesBackground", "    " + "TechPoolIncludesBackgroundTitle".Translate(), "TechPoolIncludesBackgroundDesc".Translate(), false);
             // TechPoolIncludesBackground.OnValueChanged = x => { ValidateTechPoolSettings(x); };
-            TechPoolIncludesScenario = Settings.GetHandle<bool>("TechPoolIncludesScenario", "TechPoolIncludesScenarioTitle".Translate(), "TechPoolIncludesScenarioDesc".Translate(), true);
+            TechPoolIncludesScenario = Settings.GetHandle<bool>("TechPoolIncludesScenario", "    " + "TechPoolIncludesScenarioTitle".Translate(), "TechPoolIncludesScenarioDesc".Translate(), true);
             // TechPoolIncludesScenario.OnValueChanged = x => { ValidateTechPoolSettings(x); };
             WeaponPoolMode = Settings.GetHandle("WeaponPoolMode", "WeaponPoolModeTitle".Translate(), "WeaponPoolModeDesc".Translate(), FactionWeaponPool.Scenario, null, "WeaponPoolMode_");
             FreeScenarioWeapons = Settings.GetHandle("FreeScenarioWeapons", "FreeScenarioWeaponsTitle".Translate(), "FreeScenarioWeaponsDesc".Translate(), false);
