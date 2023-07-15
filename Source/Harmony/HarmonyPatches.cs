@@ -128,10 +128,20 @@ namespace HumanResources
             }
 
             //Fluffy Breakdowns integration
-            if (LoadedModManager.RunningModsListForReading.Any(x => x.PackageIdPlayerFacing.StartsWith("fluffy.fluffybreakdowns") || x.PackageIdPlayerFacing.StartsWith("theeyeofbrows.fluffybreakdowns")))
+            if (LoadedModManager.RunningModsListForReading.Any(x => x.PackageIdPlayerFacing.StartsWith("Fluffy.FluffyBreakdowns")))
             {
                 Log.Message("[HumanResources] Fluffy Breakdowns detected! Integrating...");
                 FluffyBreakdowns_Patches.Execute(Instance);
+            }
+
+            //Research Data
+            if (LoadedModManager.RunningModsListForReading.Any(x => x.PackageIdPlayerFacing.StartsWith("kongkim.ResearchData")))
+            {
+                Log.Message("[HumanResources] Research Data detected! Integrating...");
+                var func1 = AccessTools.Method("ResearchData.WorkGiver_Researcher_JobOnThing_Patch:Prefix");
+                Instance.Patch(AccessTools.Method("WorkGiver_ResearchTech:JobOnThing"), prefix: new HarmonyMethod(func1));
+                var func2 = AccessTools.Method("ResearchData.WorkGiver_Researcher_HasJobOnThing_Patch:Prefix");
+                Instance.Patch(AccessTools.Method("WorkGiver_ResearchTech:HasJobOnThing"), prefix: new HarmonyMethod(func2));
             }
 
             //Provisions for specific research projects
