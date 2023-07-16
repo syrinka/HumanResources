@@ -138,8 +138,11 @@ namespace HumanResources
                 }
             };
             techStuff.ResolveReferences();
-            MethodInfo GiveShortHashInfo = AccessTools.Method(typeof(ShortHashGiver), "GiveShortHash");
-            GiveShortHashInfo.Invoke(tech, new object[] { techStuff, typeof(ThingDef), new HashSet<ushort>()});
+            // resolve shorthash
+            var takenHashes = AccessTools.Field(typeof(ShortHashGiver), "takenHashesPerDeftype").GetValue(null) as Dictionary<Type, HashSet<ushort>>;
+            var usedHashes = takenHashes[typeof(ThingDef)];
+            AccessTools.Method(typeof(ShortHashGiver), "GiveShortHash").Invoke(null, new object[] { techStuff, typeof(ThingDef), usedHashes });
+
             DefDatabase<ThingDef>.Add(techStuff);
             filter.SetAllow(techStuff, true);
             FindTech(tech).Stuff = techStuff;
