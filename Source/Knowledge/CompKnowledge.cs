@@ -100,6 +100,16 @@ namespace HumanResources
             }
         }
 
+
+        public void InitBabyExpertise()
+        {
+            expertise = new Dictionary<ResearchProjectDef, float>();
+            if (proficientPlants == null) proficientPlants = new List<ThingDef>();
+            if (proficientWeapons == null) proficientWeapons = new List<ThingDef>();
+            if (fearedWeapons == null) fearedWeapons = new List<ThingDef>();
+            if (homework == null) homework = new List<ResearchProjectDef>();
+        }
+
         public void AcquireExpertise()
         {
             if (Prefs.LogVerbose) Log.Warning($"[HumanResources] Acquiring expertise for {pawn}...");
@@ -405,8 +415,18 @@ namespace HumanResources
 
         public override void PostSpawnSetup(bool respawningAfterLoad)
         {
-            if (expertise == null) AcquireExpertise();
-            if (techLevel == 0) techLevel = expertise.Keys.Aggregate((a, b) => a.techLevel > b.techLevel ? a : b).techLevel;
+            if (expertise == null)
+            {
+                if (pawn.ageTracker.CurLifeStage != LifeStageDefOf.HumanlikeBaby)
+                {
+                    AcquireExpertise();
+                    if (techLevel == 0) techLevel = expertise.Keys.Aggregate((a, b) => a.techLevel > b.techLevel ? a : b).techLevel;
+                }
+                else
+                {
+                    InitBabyExpertise();
+                }
+            }
             ResearchTree_Watcher.TechHovered += TreeNodeHoveredHandler;
             ResearchTree_Watcher.HoveredOut += TreeNodeHoveredOutHandler;
         }
