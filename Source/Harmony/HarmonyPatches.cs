@@ -38,12 +38,6 @@ namespace HumanResources
                 Log.Message("[HumanResources] Deriving from ResearchTree.");
                 ResearchTree_Patches.Execute(Instance, "FluffyResearchTree");
             }
-            else if (LoadedModManager.RunningModsListForReading.Any(x => x.PackageIdPlayerFacing.StartsWith("notfood.ResearchPal")))
-            {
-                Log.Message("[HumanResources] Deriving from ResearchPal.");
-                ResearchTree_Patches.Execute(Instance, "ResearchPal");
-                ResearchPal = true;
-            }
             else if (LoadedModManager.RunningModsListForReading.Any(x => x.PackageIdPlayerFacing.StartsWith("VinaLx.ResearchPalForked")))
             {
                 Log.Message("[HumanResources] Deriving from ResearchPal - Forked.");
