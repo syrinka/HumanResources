@@ -163,7 +163,7 @@ namespace HumanResources
             bool usedPreReq = false;
 
             //1. check what it unlocks
-            List<Def> unlocks = GetUnlockDefsProxy(tech);
+            List<Def> unlocks = tech.UnlockedDefs;
             IEnumerable<Def> defs = unlocks.AsEnumerable();
             IEnumerable<ThingDef> thingDefs = defs.Where(d => d is ThingDef).Select(d => d as ThingDef);
             IEnumerable<RecipeDef> recipeDefs = defs.Where(d => d is RecipeDef).Select(d => d as RecipeDef);
@@ -257,7 +257,7 @@ namespace HumanResources
             query = query.ToLower(culture);
             return
                 tech.LabelCap.RawText.ToLower(culture).Contains(query) ||
-                ResearchTree_Patches.GetUnlockDefsProxy(tech).Any(unlock => unlock.LabelCap != null && unlock.LabelCap.RawText.ToLower(culture).Contains(query)) ||
+                tech.UnlockedDefs.Any(unlock => unlock.LabelCap != null && unlock.LabelCap.RawText.ToLower(culture).Contains(query)) ||
                 tech.description.ToLower(culture).Contains(query);
         }
 

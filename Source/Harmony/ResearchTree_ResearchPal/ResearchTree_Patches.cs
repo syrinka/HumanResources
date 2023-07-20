@@ -137,12 +137,7 @@ namespace HumanResources
             List<string> FailedProperties = new List<string>();
 
             // ResearchProjectDef_Extensions
-            if ((TreeVer & ResearchTreeVersion.Pal) != 0)
-            {
-                instance.CreateReversePatcher(AccessTools.Method(modName + ".ResearchProjectDef_Extensions:GetUnlockDefs"),
-                    new HarmonyMethod(AccessTools.Method(typeof(ResearchTree_Patches), nameof(GetUnlockDefs)))).Patch();
-            }
-            else
+            if (!TreeVer.HasFlag(ResearchTreeVersion.Pal))
             {
                 instance.CreateReversePatcher(AccessTools.Method(modName + ".ResearchProjectDef_Extensions:GetUnlockDefsAndDescs"),
                     new HarmonyMethod(AccessTools.Method(typeof(ResearchTree_Patches), nameof(GetUnlockDefsAndDescs)))).Patch();
@@ -953,22 +948,13 @@ namespace HumanResources
             ____available = __state;
         }
 
-
-        //the 1/9/2021 update simplified GetUnlockDefsAndDescs, changing the return type, so these 3 additional methods are now needed. Branching changes ensued.
-        public static List<Def> GetUnlockDefs(ResearchProjectDef research) { throw stubMsg; }
-
-        public static List<Def> GetUnlockDefsProxy(ResearchProjectDef research)
-        {
-            return (TreeVer & ResearchTreeVersion.Pal) != 0 ? GetUnlockDefs(research) : GetUnlockDefsAndDescs(research).Select(p => p.First).ToList();
-        }
-
         public static List<Pair<Def, string>> GetUnlockDefsAndDescsProxy(ResearchProjectDef research)
         {
             List<Pair<Def, string>> result = new List<Pair<Def, string>>();
             if ((TreeVer & ResearchTreeVersion.Pal) != 0)
             {
                 bool cached = ResearchNodesCache.ContainsKey(research);
-                foreach (Def def in GetUnlockDefs(research))
+                foreach (Def def in research.UnlockedDefs)
                 {
                     string tip = def.LabelCap;
                     if (cached) tip = (string)UnlockItemTooltipInfo.Invoke(ResearchNodesCache[research], new object[] { def });
