@@ -10,12 +10,13 @@ namespace HumanResources
         public static Harmony instance = null;
 
         public static bool
-            ResearchPal = false,
             PrisonLabor = false,
             VFEM = false,
             RunSpecialCases = false,
             SemiRandom = false,
             VisibleBooksCategory = false;
+
+        public static ResearchTreeVersion TreeVer = ResearchTreeVersion.Tree;
 
         public static Harmony Instance
         {
@@ -24,6 +25,21 @@ namespace HumanResources
                 if (instance == null)
                     instance = new Harmony("JPT.HumanResources");
                 return instance;
+            }
+        }
+
+        public static string ResearchPalNamespaceRoot
+        {
+            get
+            {
+                switch (TreeVer)
+                {
+                    case ResearchTreeVersion.Tree:
+                        return "Fluffy.ResearchTree";
+                    case ResearchTreeVersion.Pal:
+                        return "ResearchPal";
+                    default: return string.Empty;
+                }
             }
         }
 
@@ -37,16 +53,17 @@ namespace HumanResources
             {
                 Log.Message("[HumanResources] Deriving from ResearchTree.");
                 ResearchTree_Patches.Execute(Instance, "FluffyResearchTree");
+                TreeVer = ResearchTreeVersion.Tree;
             }
-            else if (LoadedModManager.RunningModsListForReading.Any(x => x.PackageIdPlayerFacing.StartsWith("VinaLx.ResearchPalForked")))
+            else if (LoadedModManager.RunningModsListForReading.Any(x => x.PackageIdPlayerFacing.StartsWith("Neigh.ResearchPalRepackage")))
             {
-                Log.Message("[HumanResources] Deriving from ResearchPal - Forked.");
-                ResearchTree_Patches.Execute(Instance, "ResearchPal", true);
-                ResearchPal = true;
+                Log.Message("[HumanResources] Deriving from ResearchPal - 1.4 Repackage.");
+                ResearchTree_Patches.Execute(Instance, "ResearchPal", ResearchTreeVersion.Pal);
+                TreeVer = ResearchTreeVersion.Pal;
             }
             else
             {
-                Log.Error("[HumanResources] Could not find ResearchTree nor ResearchPal. Human Resources will not work!");
+                Log.Error("[HumanResources] Could not find ResearchPowl. Human Resources will not work!");
             }
 
             //Go Explore! integration
@@ -143,7 +160,7 @@ namespace HumanResources
             x.PackageIdPlayerFacing.StartsWith("loconeko.roadsoftherim") ||
             x.PackageIdPlayerFacing.StartsWith("Mlie.RoadsOfTheRim") ||
             x.PackageIdPlayerFacing.StartsWith("fluffy.backuppower") ||
-            x.PackageIdPlayerFacing.StartsWith("fluffy.fluffybreakdowns") ||
+            x.PackageIdPlayerFacing.StartsWith("Fluffy.FluffyBreakdowns") ||
             x.PackageIdPlayerFacing.StartsWith("Ogliss.AdMech.Armoury") ||
             x.PackageIdPlayerFacing.StartsWith("VanillaExpanded.VFEArt")))
             {

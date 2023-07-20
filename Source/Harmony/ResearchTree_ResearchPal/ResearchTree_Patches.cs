@@ -128,16 +128,16 @@ namespace HumanResources
         #endregion
 
         #region "patchworks"
-        public static void Execute(Harmony instance, string modName, bool altRPal = false)
+        public static void Execute(Harmony instance, string modName, ResearchTreeVersion treeVer = ResearchTreeVersion.Tree)
         {
             //Harmony.DEBUG = true;
             ModName = modName;
-            AltRPal = altRPal;
+            TreeVer = treeVer;
             List<string> FailedFields = new List<string>();
             List<string> FailedProperties = new List<string>();
 
-            //ResearchProjectDef_Extensions
-            if (altRPal)
+            // ResearchProjectDef_Extensions
+            if ((TreeVer & ResearchTreeVersion.Pal) != 0)
             {
                 instance.CreateReversePatcher(AccessTools.Method(modName + ".ResearchProjectDef_Extensions:GetUnlockDefs"),
                     new HarmonyMethod(AccessTools.Method(typeof(ResearchTree_Patches), nameof(GetUnlockDefs)))).Patch();
@@ -155,12 +155,12 @@ namespace HumanResources
                 new HarmonyMethod(AccessTools.Method(typeof(ResearchTree_Patches), nameof(GetPlantsUnlocked)))).Patch();
             instance.CreateReversePatcher(AccessTools.Method(modName + ".ResearchProjectDef_Extensions:Ancestors"),
                 new HarmonyMethod(AccessTools.Method(typeof(ResearchTree_Patches), nameof(Ancestors)))).Patch();
-            if (altRPal)
+            if ((TreeVer & ResearchTreeVersion.Pal) != 0)
             {
                 ResearchNodeInfo = AccessTools.Method(modName + ".ResearchProjectDef_Extensions:ResearchNode");
             }
 
-            //Node
+            // Node
             IsVisibleInfo = AccessTools.Method(NodeType(), "IsVisible");
             RectInfo = GetPropertyOrFeedback(NodeType(), "Rect", ref FailedProperties);
             RightInfo = GetPropertyOrFeedback(NodeType(), "Right", ref FailedProperties);
@@ -171,7 +171,7 @@ namespace HumanResources
             CostIconRectInfo = GetPropertyOrFeedback(NodeType(), "CostIconRect", ref FailedProperties);
             IconsRectInfo = GetPropertyOrFeedback(NodeType(), "IconsRect", ref FailedProperties);
             XInfo = GetPropertyOrFeedback(NodeType(), "X", ref FailedProperties);
-            if (altRPal)
+            if ((TreeVer & ResearchTreeVersion.Pal) != 0)
             {
                 instance.CreateReversePatcher(AccessTools.Method(modName + ".Node:Highlighted"),
                     new HarmonyMethod(AccessTools.Method(typeof(ResearchTree_Patches), nameof(Highlighted)))).Patch();
@@ -186,8 +186,8 @@ namespace HumanResources
                 new HarmonyMethod(AccessTools.Method(typeof(ResearchTree_Patches), nameof(Node_SetRects_Prefix))),
                 new HarmonyMethod(AccessTools.Method(typeof(ResearchTree_Patches), nameof(Node_SetRects_Postfix))));
 
-            //ResearchNode
-            if (altRPal)
+            // ResearchNode
+            if ((TreeVer & ResearchTreeVersion.Pal) != 0)
             {
                 instance.Patch(AccessTools.Method(ResearchNodeType(), "HandleDragging", new Type[] { typeof(bool) }),
                     new HarmonyMethod(AccessTools.Method(typeof(ResearchTree_Patches), nameof(HandleDragging_Prefix))));
@@ -240,10 +240,10 @@ namespace HumanResources
                 new HarmonyMethod(AccessTools.Method(typeof(ResearchTree_Patches), nameof(Edge_Draw_Postfix))));
             InInfo = GetPropertyOrFeedback(EdgeType<Type, Type>(), "In", ref FailedProperties);
             OutInfo = GetPropertyOrFeedback(EdgeType<Type, Type>(), "Out", ref FailedProperties);
-            if (altRPal) InResearchInfo = AccessTools.Method(EdgeType<Type, Type>(), "InResearch");
+            if ((TreeVer & ResearchTreeVersion.Pal) != 0) InResearchInfo = AccessTools.Method(EdgeType<Type, Type>(), "InResearch");
 
             //MainTabWindow_ResearchTree
-            if (AltRPal)
+            if ((TreeVer & ResearchTreeVersion.Pal) != 0)
             {
                 searchActiveInfo = GetFieldOrFeedback(MainTabType(), "_searchActive", ref FailedFields);
             }
@@ -255,7 +255,7 @@ namespace HumanResources
                 instance.Patch(AccessTools.Method(MainTabType(), "SetRects"),
                     null, new HarmonyMethod(AccessTools.Method(typeof(ResearchTree_Patches), nameof(MainTabWindow_SetRects_Postfix))));
             };
-            if (modName != "ResearchPal")
+            if ((TreeVer & ResearchTreeVersion.Tree) != 0)
             {
                 instance.Patch(AccessTools.Method(MainTabType(), "Notify_TreeInitialized"),
                     null, new HarmonyMethod(AccessTools.Method(typeof(ResearchTree_Patches), nameof(TreeInitialized_Postfix))));
@@ -267,7 +267,7 @@ namespace HumanResources
             instance.Patch(AccessTools.PropertyGetter(MainTabType(), "TreeRect"),
                 new HarmonyMethod(AccessTools.Method(typeof(ResearchTree_Patches), nameof(TreeRect_Prefix))));
             InstanceInfo = GetPropertyOrFeedback(MainTabType(), "Instance", ref FailedProperties);
-            Type windowNodeType = AltRPal ? ResearchNodeType() : NodeType();
+            Type windowNodeType = (TreeVer & ResearchTreeVersion.Pal) != 0 ? ResearchNodeType() : NodeType();
             MainTabCenterOnInfo = AccessTools.Method(MainTabType(), "CenterOn", new Type[] { windowNodeType });
 
             //Tree
@@ -276,10 +276,10 @@ namespace HumanResources
                 new HarmonyMethod(AccessTools.Method(typeof(ResearchTree_Patches), nameof(PopulateNodes_Postfix))));
             if (modName == "ResearchPal")
             {
-                string initializer = AltRPal ? "InitializeLayout" : "Initialize";
+                string initializer = (TreeVer & ResearchTreeVersion.Pal) != 0 ? "InitializeLayout" : "Initialize";
                 instance.Patch(AccessTools.Method(TreeType(), initializer),
                     null, new HarmonyMethod(AccessTools.Method(typeof(ResearchTree_Patches), nameof(TreeInitialized_Postfix))));
-                if (AltRPal)
+                if ((TreeVer & ResearchTreeVersion.Pal) != 0)
                 {
                     HandleFixedHighlightInfo = AccessTools.Method(TreeType(), "HandleFixedHighlight");
                     StopFixedHighlightsInfo = AccessTools.Method(TreeType(), "StopFixedHighlights");
@@ -287,7 +287,7 @@ namespace HumanResources
             }
 
             //Queue
-            if (altRPal)
+            if ((TreeVer & ResearchTreeVersion.Pal) != 0)
             {
                 instance.Patch(AccessTools.Method(QueueType(), "DrawS"),
                     new HarmonyMethod(AccessTools.Method(typeof(ResearchTree_Patches), nameof(QueueDraw_Prefix))));
@@ -315,10 +315,10 @@ namespace HumanResources
             NodeMarginsInfo = GetFieldOrFeedback(ConstantsType(), "NodeMargins", ref FailedFields);
             NodeSizeInfo = GetFieldOrFeedback(ConstantsType(), "NodeSize", ref FailedFields);
             TopBarHeightInfo = GetFieldOrFeedback(ConstantsType(), "TopBarHeight", ref FailedFields);
-            if (altRPal) TopBarHeightInfo.SetValue(instance, NodeSize.y * 0.6f + 2 * Margin);
+            if ((TreeVer & ResearchTreeVersion.Pal) != 0) TopBarHeightInfo.SetValue(instance, NodeSize.y * 0.6f + 2 * Margin);
 
             //Assets
-            if (altRPal)
+            if ((TreeVer & ResearchTreeVersion.Pal) != 0)
             {
                 NormalHighlightColorInfo = GetFieldOrFeedback(AssetsType(), "NormalHighlightColor", ref FailedFields); //default blue
                 HoverPrimaryColorInfo = GetFieldOrFeedback(AssetsType(), "HoverPrimaryColor", ref FailedFields); //violet
@@ -329,7 +329,7 @@ namespace HumanResources
             }
 
             //Base game
-            if (altRPal)
+            if ((TreeVer & ResearchTreeVersion.Pal) != 0)
             {
                 instance.Patch(AccessTools.Method(typeof(TooltipHandler), "TipRegion", new Type[] { typeof(Rect), typeof(Func<string>), typeof(int) }),
                     new HarmonyMethod(AccessTools.Method(typeof(ResearchTree_Patches), nameof(TooltipHandler_TipRegion_Prefix))));
@@ -392,8 +392,10 @@ namespace HumanResources
 
         private static void DeInterest()
         {
-            if (AltRPal) StopFixedHighlightsInfo.Invoke(MainTabInstance, new object[] { });
-            if (Interest != null) Interest = null;
+            if ((TreeVer & ResearchTreeVersion.Pal) != 0)
+                StopFixedHighlightsInfo.Invoke(MainTabInstance, new object[] { });
+            if (Interest != null)
+                Interest = null;
         }
 
         public static void DoWindowContents_Postfix(object __instance)
@@ -406,7 +408,10 @@ namespace HumanResources
                 HighlightedProxy(ResearchNodesCache[Interest], true, 4);
                 IEnumerable<object> expertiseDisplay = new object[] { };
                 ReflectKnowledge(Context, out expertiseDisplay);
-                if (!AltRPal) return;
+
+                if ((TreeVer & ResearchTreeVersion.Pal) == 0)
+                    return;
+
                 UpdateMatches(expertiseDisplay);
                 expertiseDisplayed = true;
                 DeInterest();
@@ -418,14 +423,14 @@ namespace HumanResources
 
         public static bool DrawQueue_Prefix(object __instance, Rect canvas)
         {
-            if (AltRPal)
+            if ((TreeVer & ResearchTreeVersion.Pal) != 0)
             {
                 canvas.xMax += 130f + 2 * Margin; //keep an eye on his MainTabWindow_ResearchTree.DrawTopBar method for changes to this number
                 canvas = canvas.ExpandedBy(Margin);
             }
             float padding = 12f;
             float size = canvas.height;
-            float startPos = canvas.xMax - (size/2) - padding ;
+            float startPos = canvas.xMax - (size / 2) - padding;
             var colonists = Find.ColonistBar.GetColonistsInOrder();
             float space = canvas.width - 2 * padding;
             bool excess = (colonists.Count() * size - space) > 0;
@@ -443,7 +448,7 @@ namespace HumanResources
                     startPos -= spacing;
                 }
             }
-            if (AltRPal)
+            if ((TreeVer & ResearchTreeVersion.Pal) != 0)
             {
                 if (displayActive)
                 {
@@ -517,7 +522,7 @@ namespace HumanResources
                 Vector2 size = new Vector2(push.x, 4f);
                 var line = new Rect(fauxPos, size);
                 Color backup = GUI.color;
-                GUI.color = AltRPal ? (Color)InEdgeColorInfo.Invoke(next, new object[] { InResearchInfo.Invoke(__instance, new object[] { }) }) : (Color)EdgeColorInfo.GetValue(next);
+                GUI.color = (TreeVer & ResearchTreeVersion.Pal) != 0 ? (Color)InEdgeColorInfo.Invoke(next, new object[] { InResearchInfo.Invoke(__instance, new object[] { }) }) : (Color)EdgeColorInfo.GetValue(next);
                 GUI.DrawTexture(line, ResearchTree_Assets.EW);
                 GUI.color = backup;
             }
@@ -533,7 +538,7 @@ namespace HumanResources
         {
             var text = new StringBuilder();
             text.AppendLine(___Research.description);
-            if (DebugSettings.godMode && !HarmonyPatches.ResearchPal) text.AppendLine("Fluffy.ResearchTree.RClickInstaFinish".Translate()); //There's no corresponding line on ResearchPal, but it works anyway. 
+            if (DebugSettings.godMode && !TreeVer.HasFlag(ResearchTreeVersion.Tree)) text.AppendLine("Fluffy.ResearchTree.RClickInstaFinish".Translate()); //There's no corresponding line on ResearchPal, but it works anyway. 
             __result = text.ToString();
             return false;
         }
@@ -587,7 +592,7 @@ namespace HumanResources
             Find.WindowStack.FloatMenu?.Close(false);
             bool valid = !techComp.expertise.EnumerableNullOrEmpty();
             expertiseDisplay = new object[] { };
-            if (AltRPal)
+            if ((TreeVer & ResearchTreeVersion.Pal) != 0)
             {
                 ToggleSearch(true);
                 if (valid) expertiseDisplay = from e in ResearchNodesCache
@@ -672,7 +677,7 @@ namespace HumanResources
                 Text.WordWrap = true;
 
                 //attach description and further info to a tooltip
-                string root = HarmonyPatches.ResearchPal ? "ResearchPal" : "Fluffy.ResearchTree";
+                string root = HarmonyPatches.ResearchPalNamespaceRoot;
                 TooltipHandler.TipRegion(rect, new Func<string>(() => (string)GetResearchTooltipStringInfo.Invoke(__instance, new object[] { })), Research.GetHashCode());
                 if (!BuildingPresentProxy(Research))
                 {
@@ -805,7 +810,7 @@ namespace HumanResources
         {
             foreach (var node in techs.OrderBy(x => XInfo.GetValue(ResearchNodesCache[x])).ThenBy(x => x.baseCost).Select(x => ResearchNodesCache[x]))
             {
-                if (AltRPal) AppendSInfo.Invoke(null, new object[] { node });
+                if ((TreeVer & ResearchTreeVersion.Pal) != 0) AppendSInfo.Invoke(null, new object[] { node });
                 else EnqueueInfo.Invoke(MainTabInstance, new object[] { node, true });
             }
         }
@@ -813,9 +818,9 @@ namespace HumanResources
 
         #region VinaLx.ResearchPalForked adaptation
 
-        public static bool
-            AltRPal = false,
-            expertiseDisplayed = false;
+        public static ResearchTreeVersion TreeVer = ResearchTreeVersion.Tree;
+
+        public static bool expertiseDisplayed = false;
 
         private static MethodInfo
             ResearchNodeInfo,
@@ -845,12 +850,12 @@ namespace HumanResources
 
         public static bool BuildingPresentProxy(ResearchProjectDef research)
         {
-            if (AltRPal && ResearchNodeInfo != null)
+            if ((TreeVer & ResearchTreeVersion.Pal) != 0 && ResearchNodeInfo != null)
             {
                 object rnode = ResearchNodeInfo.Invoke(research, new object[] { research });
                 return (bool)BuildingPresentInfo.Invoke(rnode, new object[] { rnode });
             }
-            else if (AltRPal)
+            else if ((TreeVer & ResearchTreeVersion.Pal) != 0)
             {
                 Log.Error("[HumanResources] Error adapting to ResearchPal-Forked: null ResearchNodeInfo");
             }
@@ -881,7 +886,7 @@ namespace HumanResources
         public static void HighlightedProxy(object node, bool setting, int reason = 7)
         {
             //Set
-            if (AltRPal) HighlightInfo.Invoke(node, new object[] { reason });
+            if ((TreeVer & ResearchTreeVersion.Pal) != 0) HighlightInfo.Invoke(node, new object[] { reason });
             else if (HighlightedInfo != null)
             {
                 HighlightedInfo.SetValue(node, setting);
@@ -891,7 +896,7 @@ namespace HumanResources
         public static bool HighlightedProxy(object node)
         {
             //Get
-            if (AltRPal) return Highlighted();
+            if ((TreeVer & ResearchTreeVersion.Pal) != 0) return Highlighted();
             else if (HighlightedInfo != null)
             {
                 return (bool)HighlightedInfo.GetValue(node);
@@ -956,13 +961,13 @@ namespace HumanResources
 
         public static List<Def> GetUnlockDefsProxy(ResearchProjectDef research)
         {
-            return AltRPal ? GetUnlockDefs(research) : GetUnlockDefsAndDescs(research).Select(p => p.First).ToList();
+            return (TreeVer & ResearchTreeVersion.Pal) != 0 ? GetUnlockDefs(research) : GetUnlockDefsAndDescs(research).Select(p => p.First).ToList();
         }
 
         public static List<Pair<Def, string>> GetUnlockDefsAndDescsProxy(ResearchProjectDef research)
         {
             List<Pair<Def, string>> result = new List<Pair<Def, string>>();
-            if (AltRPal)
+            if ((TreeVer & ResearchTreeVersion.Pal) != 0)
             {
                 bool cached = ResearchNodesCache.ContainsKey(research);
                 foreach (Def def in GetUnlockDefs(research))
@@ -978,6 +983,12 @@ namespace HumanResources
 
         #endregion
     }
-}
 
+    [Flags]
+    public enum ResearchTreeVersion
+    {
+        Tree = 1,
+        Pal = 2
+    }
+}
 
