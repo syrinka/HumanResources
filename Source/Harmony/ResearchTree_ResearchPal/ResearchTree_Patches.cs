@@ -216,8 +216,6 @@ namespace HumanResources
                 GetMissingRequiredRecursiveInfo = AccessTools.Method(ResearchNodeType(), "GetMissingRequiredRecursive");
                 AvailableInfo = GetPropertyOrFeedback(ResearchNodeType(), "Available", ref FailedProperties);
             }
-            instance.CreateReversePatcher(AccessTools.Method(ResearchNodeType(), "TechprintAvailable", new Type[] { typeof(ResearchProjectDef) }),
-                new HarmonyMethod(AccessTools.Method(typeof(ResearchTree_Patches), nameof(TechprintAvailable)))).Patch();
             instance.CreateReversePatcher(AccessTools.Method(ResearchNodeType(), "MissingFacilities", new Type[] { typeof(ResearchProjectDef) }),
                 new HarmonyMethod(AccessTools.Method(typeof(ResearchTree_Patches), nameof(MissingFacilities)))).Patch();
             instance.Patch(AccessTools.PropertyGetter(ResearchNodeType(), "Color"),
@@ -684,7 +682,7 @@ namespace HumanResources
                     string languageKey = root + ".MissingFacilities";
                     TooltipHandler.TipRegion(rect, languageKey.Translate(string.Join(", ", MissingFacilities(Research).Select(td => td.LabelCap).ToArray())));
                 }
-                else if (!TechprintAvailable(Research))
+                else if (!Research.TechprintRequirementMet)
                 {
                     string languageKey = root + ".MissingTechprints";
                     TooltipHandler.TipRegion(rect, languageKey.Translate(Research.TechprintsApplied, Research.techprintCount));

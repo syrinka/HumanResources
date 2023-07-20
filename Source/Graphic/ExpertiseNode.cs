@@ -250,7 +250,7 @@ namespace HumanResources
                     string languageKey = root + ".MissingFacilities";
                     TooltipHandler.TipRegion(Rect, languageKey.Translate(string.Join(", ", MissingFacilities().Select(td => td.LabelCap).ToArray())));
                 }
-                else if (!TechprintAvailable())
+                else if (!Tech.TechprintRequirementMet)
                 {
                     string languageKey = root + ".MissingTechprints";
                     TooltipHandler.TipRegion(Rect, languageKey.Translate(Tech.TechprintsApplied, Tech.techprintCount));
@@ -431,10 +431,6 @@ namespace HumanResources
         //{
         //    amount /= tech.CostFactor(techComp.techLevel);
         //}
-        public bool TechprintAvailable()
-        {
-            return ResearchTree_Patches.TechprintAvailable(Tech);
-        }
 
         public void UpdateAssignment()
         {
