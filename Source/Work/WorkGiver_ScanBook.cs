@@ -13,7 +13,7 @@ namespace HumanResources
 
     class WorkGiver_ScanBook : WorkGiver_Knowledge
     {
-        public new List<ThingCount> chosenIngThings = new List<ThingCount>();
+        public List<ThingCount> chosenIngThings = new List<ThingCount>();
         protected static MethodInfo
             GetBillGiverRootCellInfo = AccessTools.Method(typeof(WorkGiver_DoBill), "GetBillGiverRootCell"),
             BestIngredientsInfo = AccessTools.Method(typeof(WorkGiver_DoBill), "TryFindBestBillIngredients");
@@ -41,7 +41,7 @@ namespace HumanResources
             return false;
         };
 
-        private static new List<Thing>
+        private static List<Thing>
             relevantThings = new List<Thing>(),
             newRelevantThings = new List<Thing>();
 
@@ -147,7 +147,7 @@ namespace HumanResources
             return availableThings.FirstOrDefault();
         }
 
-        private static new bool TryFindBestBillIngredients(Bill bill, Pawn pawn, Thing billGiver, List<ThingCount> chosen)
+        private static bool TryFindBestBillIngredients(Bill bill, Pawn pawn, Thing billGiver, List<ThingCount> chosen)
         {
             chosen.Clear();
             newRelevantThings.Clear();
