@@ -63,7 +63,7 @@ namespace HumanResources
             }
             else
             {
-                Log.Error("[HumanResources] Could not find ResearchPowl. Human Resources will not work!");
+                Log.Error("[HumanResources] Could not find ResearchTree. Human Resources will not work!");
             }
 
             //Go Explore! integration
