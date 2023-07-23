@@ -157,7 +157,7 @@ namespace HumanResources
             if (!JobFailReason.HaveReason) JobFailReason.Is("NoWeaponsFoundToLearn".Translate(pawn), null);
             if (FloatMenuMakerMap.makingFor != pawn)
             {
-                IntRange range = (IntRange)rangeInfo.GetValue(this);
+                IntRange range = (IntRange)rangeInfo.GetValue(null);
                 bill.nextTickToSearchForIngredients = Find.TickManager.TicksGame + range.RandomInRange;
             }
             return false;

@@ -236,7 +236,7 @@ namespace HumanResources
             }
             if (!JobFailReason.HaveReason) JobFailReason.Is("NoBooksToScan".Translate(pawn), null);
             {
-                IntRange range = (IntRange)rangeInfo.GetValue(this);
+                IntRange range = (IntRange)rangeInfo.GetValue(null);
                 bill.nextTickToSearchForIngredients = Find.TickManager.TicksGame + range.RandomInRange;
             }
             return false;
