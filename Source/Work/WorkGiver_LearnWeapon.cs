@@ -144,7 +144,7 @@ namespace HumanResources
 
         protected virtual bool ValidateChosenWeapons(Bill bill, Pawn pawn, IBillGiver giver)
         {
-            if ((bool)BestIngredientsInfo.Invoke(this, new object[] { bill, pawn, giver, chosenIngThings }))
+            if ((bool)BestIngredientsInfo.Invoke(this, new object[] { bill, pawn, giver, chosenIngThings, new List<IngredientCount>() }))
             {
                 var studyWeapons = StudyWeapons(bill, pawn);
                 chosenIngThings.RemoveAll(x => !studyWeapons.Contains(x.Thing.def));
