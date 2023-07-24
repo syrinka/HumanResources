@@ -31,23 +31,23 @@ namespace HumanResources
             {
                 actualJob = null;
                 IBillGiver billGiver = thing as IBillGiver;
-                if (billGiver != null && ThingIsUsableBillGiver(thing) && billGiver.BillStack.AnyShouldDoNow && billGiver.UsableForBillsAfterFueling())
+                if (billGiver == null || !this.ThingIsUsableBillGiver(thing) || !billGiver.BillStack.AnyShouldDoNow
+                    || !billGiver.UsableForBillsAfterFueling() || !pawn.CanReserve(thing, 1, -1, null, forced)
+                    || thing.IsBurning() || thing.IsForbidden(pawn)
+                    || (thing.def.hasInteractionCell && !pawn.CanReserveSittableOrSpot(thing.InteractionCell, forced)))
                 {
-                    LocalTargetInfo target = thing;
-                    if (pawn.CanReserve(target, 1, -1, null, forced) && !thing.IsBurning() && !thing.IsForbidden(pawn)) //basic desk availabilty
+                    return null;
+                }
+                if (IsRangeClear(thing)) //check is shooting area is clear if it exists.
+                {
+                    billGiver.BillStack.RemoveIncompletableBills();
+                    foreach (Bill bill in RelevantBills(thing, pawn))
                     {
-                        if (IsRangeClear(thing)) //check is shooting area is clear if it exists.
+                        if (ValidateChosenWeapons(bill, pawn, billGiver)) //check bill filter
                         {
-                            billGiver.BillStack.RemoveIncompletableBills();
-                            foreach (Bill bill in RelevantBills(thing, pawn))
-                            {
-                                if (ValidateChosenWeapons(bill, pawn, billGiver)) //check bill filter
-                                {
-                                    actualJob = StartBillJob(pawn, billGiver, bill);
-                                    lastVerifiedJobTick = tick;
-                                    break;
-                                }
-                            }
+                            actualJob = StartBillJob(pawn, billGiver, bill);
+                            lastVerifiedJobTick = tick;
+                            break;
                         }
                     }
                 }
@@ -100,6 +100,11 @@ namespace HumanResources
             if ((Find.TickManager.TicksGame > bill.nextTickToSearchForIngredients || FloatMenuMakerMap.makingFor == pawn)
                 && bill.ShouldDoNow() && bill.PawnAllowedToStartAnew(pawn))
             {
+                if (FloatMenuMakerMap.makingFor != pawn)
+                {
+                    IntRange range = (IntRange)rangeInfo.GetValue(null);
+                    bill.nextTickToSearchForIngredients = Find.TickManager.TicksGame + range.RandomInRange;
+                }
                 Job result = TryStartNewDoBillJob(pawn, bill, giver);
                 chosenIngThings.Clear();
                 return result;
@@ -141,11 +146,6 @@ namespace HumanResources
                 }
             }
             if (!JobFailReason.HaveReason) JobFailReason.Is("NoWeaponsFoundToLearn".Translate(pawn), null);
-            if (FloatMenuMakerMap.makingFor != pawn)
-            {
-                IntRange range = (IntRange)rangeInfo.GetValue(null);
-                bill.nextTickToSearchForIngredients = Find.TickManager.TicksGame + range.RandomInRange;
-            }
             return false;
         }
     }

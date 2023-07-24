@@ -49,11 +49,6 @@ namespace HumanResources
                 var traumas = pawn.TryGetComp<CompKnowledge>().fearedWeapons;
                 if (!traumas.NullOrEmpty() && chosenIngThings.All(x => traumas.Contains(x.Thing.def))) JobFailReason.Is("FearedWeapon".Translate(pawn));
             }
-            if (!JobFailReason.HaveReason) JobFailReason.Is("NoWeaponsFoundToLearn".Translate(pawn), null);
-            {
-                IntRange range = (IntRange)rangeInfo.GetValue(null);
-                bill.nextTickToSearchForIngredients = Find.TickManager.TicksGame + range.RandomInRange;
-            }
             return false;
         }
     }
