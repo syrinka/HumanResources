@@ -429,6 +429,7 @@
     <defName>TechBook</defName>
     <label>Technical Book</label>
     <description>A book filled with knowledge.</description>
+    <defaultStuff>Cloth</defaultStuff>
     <graphicData>
       <texPath>Things/Item/book</texPath>
       <graphicClass>Graphic_Single</graphicClass>
