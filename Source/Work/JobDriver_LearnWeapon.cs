@@ -32,13 +32,9 @@ namespace HumanResources
             }
         };
 
-        private static FieldInfo currentTargetInfo = AccessTools.Field(typeof(Verb), "currentTarget");
-
         private static FieldInfo equipmentDefInfo = AccessTools.Field(typeof(Projectile), "equipmentDef");
 
         private static FieldInfo launcherInfo = AccessTools.Field(typeof(Projectile), "launcher");
-
-        private static MethodInfo TryCastShotInfo = AccessTools.Method(typeof(Verb_MeleeAttack), "TryCastShot");
 
         private FieldInfo equipmentInfo = AccessTools.Field(typeof(Pawn_EquipmentTracker), "equipment");
 
@@ -335,8 +331,7 @@ namespace HumanResources
             {
                 if (verb.IsMeleeAttack)
                 {
-                    currentTargetInfo.SetValue(verb, new LocalTargetInfo(tester));
-                    TryCastShotInfo.Invoke(verb, new object[] { });
+                    verb.TryStartCastOn(new LocalTargetInfo(tester), new LocalTargetInfo(tester), surpriseAttack: true);
                 }
                 else
                 {
@@ -347,7 +342,7 @@ namespace HumanResources
                     bullet.intendedTarget = TargetA;
                     equipmentDefInfo.SetValue(bullet, weapon.def);
                     bullet.def = projectileDef;
-                    ImpactInfo(projectileType).Invoke(bullet, new object[] { tester });
+                    ImpactInfo(projectileType).Invoke(bullet, new object[] { tester, false });
                 }
             }
             else Log.Error("[HumanResources] No verb found for using " + weapon.def);
