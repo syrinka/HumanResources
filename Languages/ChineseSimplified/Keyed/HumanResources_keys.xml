@@ -35,9 +35,9 @@
   <!--NEW-->
   <CurrentTechLevelFor>Current level for {0_nameDef}</CurrentTechLevelFor>
   <!--NEW-->
-  <MasteredButNotDocumented>Mastered by {0_nameDef} but not yet documented.</MasteredButNotDocumented>
+  <MasteredButNotDocumented>已被{0_nameDef}掌握，但尚未记录归档。</MasteredButNotDocumented>
   <!--NEW-->
-  <MasteredAndArchived>Mastered by {0_nameDef} and archived.</MasteredAndArchived>
+  <MasteredAndArchived>已被{0_nameDef}掌握并归档。</MasteredAndArchived>
 
   <!--EN: Catalog-->
   <TabCatalogue>目录</TabCatalogue>
