@@ -60,9 +60,16 @@
         </nomatch>
       </li>
       <li Class="PatchOperationAdd">
-        <xpath>/Defs/ThingDef[defName = "SimpleResearchBench" or defName = "HiTechResearchBench"]/comps/li/linkableFacilities</xpath>
+        <xpath>/Defs/ThingDef[defName = "SimpleResearchBench"]/comps/li/linkableFacilities</xpath>
         <value>
           <li>BookShelf</li>
+        </value>
+      </li>
+      <li Class="PatchOperationAdd">
+        <xpath>/Defs/ThingDef[defName = "HiTechResearchBench"]/comps</xpath>
+        <value>
+          <li Class="HumanResources.CompProperties_NetworkAccess">
+          </li>
         </value>
       </li>
       <li Class="PatchOperationReplace">
