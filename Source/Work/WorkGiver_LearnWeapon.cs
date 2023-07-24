@@ -112,7 +112,7 @@ namespace HumanResources
             chosenIngThings.Clear();
             return null;
             */
-            if ((Find.TickManager.TicksGame <= bill.nextTickToSearchForIngredients && FloatMenuMakerMap.makingFor != pawn) || !bill.ShouldDoNow() || !bill.PawnAllowedToStartAnew(pawn))
+            if ((Find.TickManager.TicksGame >= bill.nextTickToSearchForIngredients && FloatMenuMakerMap.makingFor != pawn) || !bill.ShouldDoNow() || !bill.PawnAllowedToStartAnew(pawn))
             {
                 Job result = TryStartNewDoBillJob(pawn, bill, giver);
                 chosenIngThings.Clear();
