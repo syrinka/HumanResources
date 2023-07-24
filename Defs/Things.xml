@@ -246,7 +246,7 @@
     <comps>
       <li Class="CompProperties_Facility">
         <maxSimultaneous>20</maxSimultaneous>
-        <maxDistance>7.0</maxDistance>
+        <maxDistance>16</maxDistance>
       </li>
       <li Class="HumanResources.CompProperties_StorageGraphic">
         <graphicEmpty>
