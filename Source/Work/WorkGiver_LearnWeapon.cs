@@ -100,11 +100,6 @@ namespace HumanResources
             if ((Find.TickManager.TicksGame > bill.nextTickToSearchForIngredients || FloatMenuMakerMap.makingFor == pawn)
                 && bill.ShouldDoNow() && bill.PawnAllowedToStartAnew(pawn))
             {
-                if (FloatMenuMakerMap.makingFor != pawn)
-                {
-                    IntRange range = (IntRange)rangeInfo.GetValue(null);
-                    bill.nextTickToSearchForIngredients = Find.TickManager.TicksGame + range.RandomInRange;
-                }
                 Job result = TryStartNewDoBillJob(pawn, bill, giver);
                 chosenIngThings.Clear();
                 return result;
@@ -146,6 +141,11 @@ namespace HumanResources
                 }
             }
             if (!JobFailReason.HaveReason) JobFailReason.Is("NoWeaponsFoundToLearn".Translate(pawn), null);
+            if (FloatMenuMakerMap.makingFor != pawn)
+            {
+                IntRange range = (IntRange)rangeInfo.GetValue(null);
+                bill.nextTickToSearchForIngredients = Find.TickManager.TicksGame + range.RandomInRange;
+            }
             return false;
         }
     }
