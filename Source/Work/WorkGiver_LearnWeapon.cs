@@ -110,22 +110,22 @@ namespace HumanResources
 
         protected virtual Job TryStartNewDoBillJob(Pawn pawn, Bill bill, IBillGiver giver)
         {
-            Job job = WorkGiverUtility.HaulStuffOffBillGiverJob(pawn, giver, null);
-            if (job != null)
+            Job haulOffJob = WorkGiverUtility.HaulStuffOffBillGiverJob(pawn, giver, null);
+            if (haulOffJob != null)
             {
-                return job;
+                return haulOffJob;
             }
-            Job job2 = new Job(TechJobDefOf.TrainWeapon, (Thing)giver);
-            if (chosenIngThings.Any()) //to acomodate PractiseWeapon, which uses no ingredient.
+            Job job = new Job(TechJobDefOf.TrainWeapon, (Thing)giver);
+            job.targetQueueB = new List<LocalTargetInfo>(chosenIngThings.Count);
+            job.countQueue = new List<int>(chosenIngThings.Count);
+            for (int i = 0; i < chosenIngThings.Count; i++)
             {
-                job2.targetQueueB = new List<LocalTargetInfo>(chosenIngThings.Count);
-                job2.countQueue = new List<int>(chosenIngThings.Count);
-                job2.targetQueueB.Add(chosenIngThings[0].Thing);
-                job2.countQueue.Add(chosenIngThings[0].Count);
+                job.targetQueueB.Add(chosenIngThings[i].Thing);
+                job.countQueue.Add(chosenIngThings[i].Count);
             }
-            job2.haulMode = HaulMode.ToCellNonStorage;
-            job2.bill = bill;
-            return job2;
+            job.haulMode = HaulMode.ToCellNonStorage;
+            job.bill = bill;
+            return job;
         }
 
         protected virtual bool ValidateChosenWeapons(Bill bill, Pawn pawn, IBillGiver giver)
