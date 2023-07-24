@@ -221,6 +221,7 @@ namespace HumanResources
                 return chosenIngThings.Any();
             }
             if (!JobFailReason.HaveReason) JobFailReason.Is("NoBooksToScan".Translate(pawn), null);
+            if (FloatMenuMakerMap.makingFor != pawn)
             {
                 IntRange range = (IntRange)rangeInfo.GetValue(null);
                 bill.nextTickToSearchForIngredients = Find.TickManager.TicksGame + range.RandomInRange;

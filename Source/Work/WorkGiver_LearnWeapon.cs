@@ -9,7 +9,7 @@ using Verse.AI;
 namespace HumanResources
 {
     using static ModBaseHumanResources;
-    internal class WorkGiver_LearnWeapon : WorkGiver_Knowledge
+    class WorkGiver_LearnWeapon : WorkGiver_Knowledge
     {
         public List<ThingCount> chosenIngThings = new List<ThingCount>();
         protected MethodInfo BestIngredientsInfo = AccessTools.Method(typeof(WorkGiver_DoBill), "TryFindBestBillIngredients");

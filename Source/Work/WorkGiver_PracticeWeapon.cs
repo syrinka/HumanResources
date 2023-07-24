@@ -6,7 +6,7 @@ using Verse.AI;
 
 namespace HumanResources
 {
-    internal class WorkGiver_PracticeWeapon : WorkGiver_LearnWeapon
+    class WorkGiver_PracticeWeapon : WorkGiver_LearnWeapon
     {
         public override bool ShouldSkip(Pawn pawn, bool forced = false)
         {

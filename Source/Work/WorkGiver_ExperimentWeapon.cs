@@ -8,7 +8,7 @@ namespace HumanResources
 {
     using static ModBaseHumanResources;
 
-    internal class WorkGiver_ExperimentWeapon : WorkGiver_LearnWeapon
+    class WorkGiver_ExperimentWeapon : WorkGiver_LearnWeapon
     {
         public override bool ShouldSkip(Pawn pawn, bool forced = false)
         {
