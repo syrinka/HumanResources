@@ -12,7 +12,7 @@ namespace HumanResources
 
     public class CompKnowledge : ThingComp
     {
-        CompProperties_Knowledge Props => props as CompProperties_Knowledge;
+        public CompProperties_Knowledge Props => props as CompProperties_Knowledge;
 
         private void TreeNodeHoveredHandler(object sender, ResearchProjectDef tech)
         {
