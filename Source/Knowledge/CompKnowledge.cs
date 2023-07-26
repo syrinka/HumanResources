@@ -12,6 +12,7 @@ namespace HumanResources
 
     public class CompKnowledge : ThingComp
     {
+        CompProperties_Knowledge Props => props as CompProperties_Knowledge;
 
         private void TreeNodeHoveredHandler(object sender, ResearchProjectDef tech)
         {
@@ -426,6 +427,20 @@ namespace HumanResources
                 {
                     InitBabyExpertise();
                 }
+            }
+            if (!Props.innateKnownTechs.NullOrEmpty())
+            {
+                foreach (ResearchProjectDef tech in Props.innateKnownTechs)
+                {
+                    if (!expertise.ContainsKey(tech)) expertise.Add(tech, 1f);
+                    else expertise[tech] = 1f;
+                    LearnWeapons(tech);
+                    LearnCrops(tech);
+                }
+            }
+            if (!Props.innateKnownWeapons.NullOrEmpty())
+            {
+                Props.innateKnownWeapons.ForEach(def => LearnWeapon(def));
             }
             ResearchTree_Watcher.TechHovered += TreeNodeHoveredHandler;
             ResearchTree_Watcher.HoveredOut += TreeNodeHoveredOutHandler;

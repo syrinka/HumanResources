@@ -78,7 +78,10 @@ namespace HumanResources
                 {
                     t.comps = new List<CompProperties>(1);
                 }
-                t.comps.Add(new CompProperties_Knowledge());
+                if (!t.comps.Any(c => c is CompProperties_Knowledge))
+                {
+                    t.comps.Add(new CompProperties_Knowledge());
+                }
             }
             InspectPaneUtility.Reset();
 
