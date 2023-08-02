@@ -69,11 +69,12 @@ namespace HumanResources
             //List<string> registered = new List<string>();
             foreach (ThingDef t in things)
             {
-                if (t.inspectorTabsResolved == null)
+                if (t.inspectorTabs == null)
                 {
-                    t.inspectorTabsResolved = new List<InspectTabBase>(1);
+                    t.inspectorTabs = new List<System.Type>(1);
                 }
-                t.inspectorTabsResolved.Add(InspectTabManager.GetSharedInstance(typeof(ITab_PawnKnowledge)));
+                t.inspectorTabs.Add(typeof(ITab_PawnKnowledge));
+
                 if (t.comps == null)
                 {
                     t.comps = new List<CompProperties>(1);
@@ -82,6 +83,8 @@ namespace HumanResources
                 {
                     t.comps.Add(new CompProperties_Knowledge());
                 }
+
+                t.ResolveReferences();
             }
             InspectPaneUtility.Reset();
 
