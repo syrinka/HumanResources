@@ -722,7 +722,7 @@ namespace HumanResources
             if (!research)
             {
                 amount *= researcher.GetStatValue(StatDefOf.GlobalLearningFactor, true); //Because, why not?
-                amount = Math.Max(amount, 0.1f);
+                amount = Math.Max(amount, 0.2f);
             }
             CompKnowledge techComp = researcher.TryGetComp<CompKnowledge>();
             Dictionary<ResearchProjectDef, float> expertise = techComp.expertise;
