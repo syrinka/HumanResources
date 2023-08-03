@@ -719,8 +719,11 @@ namespace HumanResources
         {
             float total = research ? tech.baseCost : recipeCost * tech.StuffCostFactor();
             amount *= research ? ResearchPointsPerWorkTick : StudyPointsPerWorkTick;
-            amount *= researcher.GetStatValue(StatDefOf.GlobalLearningFactor, true); //Because, why not?
-            amount = Math.Max(amount, 0.1f);
+            if (!research)
+            {
+                amount *= researcher.GetStatValue(StatDefOf.GlobalLearningFactor, true); //Because, why not?
+                amount = Math.Max(amount, 0.1f);
+            }
             CompKnowledge techComp = researcher.TryGetComp<CompKnowledge>();
             Dictionary<ResearchProjectDef, float> expertise = techComp.expertise;
             foreach (ResearchProjectDef sucessor in expertise.Keys.Where(x => x.IsKnownBy(researcher)))
