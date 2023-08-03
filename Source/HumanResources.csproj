@@ -202,6 +202,7 @@
     <Compile Include="Knowledge\ITab_PawnKnowledge.cs" />
     <Compile Include="Knowledge\PawnBackgroundUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Work\DebugActions.cs" />
     <Compile Include="Work\JobDriver_DocumentTech.cs" />
     <Compile Include="Work\JobDriver_DocumentTechDigital.cs" />
     <Compile Include="Work\JobDriver_Knowledge.cs" />
