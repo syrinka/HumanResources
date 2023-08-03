@@ -22,7 +22,6 @@ namespace HumanResources
         public static List<Pawn> currentPawnsCache;
         public static FieldInfo progressInfo = AccessTools.Field(typeof(ResearchManager), "progress");
         private const float MarketValueOffset = 200f;
-        private static FieldInfo ResearchPointsPerWorkTickInfo = AccessTools.Field(typeof(ResearchManager), "ResearchPointsPerWorkTick");
         #endregion
 
         #region functions
@@ -78,7 +77,7 @@ namespace HumanResources
         {
             get
             {
-                float baseValue = (float)ResearchPointsPerWorkTickInfo.GetValue(new ResearchManager());
+                float baseValue = ResearchManager.ResearchPointsPerWorkTick;
                 return ResearchSpeedTiedToDifficulty ? baseValue * DifficultyResearchSpeedFactor : baseValue * 0.9f;
             }
         }
