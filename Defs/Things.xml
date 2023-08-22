@@ -449,6 +449,7 @@
     <defName>TechDrive</defName>
     <label>Technology Database Drive</label>
     <description>A hard drive filled with knowledge. Can only be archived on a network terminal.</description>
+    <defaultStuff>Steel</defaultStuff>
     <graphicData>
       <texPath>Things/Item/drive</texPath>
       <graphicClass>Graphic_Single</graphicClass>
