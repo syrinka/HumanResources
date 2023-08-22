@@ -64,5 +64,16 @@ namespace HumanResources.Work
             }
             Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
         }
+
+        [DebugAction("HumanResources", "Write Back to Vanilla", allowedGameStates = AllowedGameStates.PlayingOnMap)]
+        private static void WriteBackToVanilla()
+        {
+            foreach (ResearchProjectDef tech in 
+                Find.World.GetComponent<TechDatabase>().techsArchived.Keys
+            )
+            {
+                Find.ResearchManager.FinishProject(tech);
+            }
+        }
     }
 }
