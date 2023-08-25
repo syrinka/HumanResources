@@ -219,7 +219,6 @@
     <Compile Include="Work\WorkGiver_PracticeWeapon.cs" />
     <Compile Include="Work\WorkGiver_ResearchTech.cs" />
     <Compile Include="Work\WorkGiver_ScanBook.cs" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup Condition="'$(Configuration)' != '1.1' AND '$(Configuration)' != '1.2'">
     <Compile Include="Harmony\EquipmentUtility_CanEquip.cs" />
